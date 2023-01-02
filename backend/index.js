@@ -9,6 +9,10 @@ async function startServer() {
         console.log('this is root');
         res.send("this is root"); //direct to homepage
     })
+    router.get('/api', (req, res) => {
+        console.log('this is api-prefix');
+        res.send("this is api-prefix"); //direct to homepage
+    })
 
     app.listen(5001, () => {
         console.log(`
