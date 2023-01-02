@@ -5,8 +5,7 @@ services:
         ports:
             - 5001:5001
         restart: always
-        depends_on:
-            - backend
+        
     proxy:
     # image: nginx:stable-alpine
         build: ./nginx
