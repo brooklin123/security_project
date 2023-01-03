@@ -21,10 +21,20 @@ services:
         depends_on:
             - backend
             - backend2
-    locust:
-        build: ./locust
-        restart: always
-        ports:
-            - 8089:8089
-        depends_on:
-            - proxy
+    master:
+    image: locustio/locust
+    ports:
+        - "8089:8089"
+    volumes:
+        - ./:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --master -H http://master:8089
+    depends_on:
+        - proxy
+
+    worker:
+    image: locustio/locust
+    volumes:
+        - ./:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --worker --master-host master
+    depends_on:
+        - proxy
