@@ -14,9 +14,9 @@ class MyUser(HttpUser):
             elif response.elapsed.total_seconds() > 0.5:
                 response.failure("Request took too long")
 
-    @task(1)
-    def api(self):
-        self.client.get("/api")
+    # @task(1)
+    # def api(self):
+    #     self.client.get("/api")
 
 
 @events.test_start.add_listener
