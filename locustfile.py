@@ -8,12 +8,11 @@ class MyUser(HttpUser):
 
     @task
     def index(self):
+        self.client.get("") #nginx
+
+    @task(1)
+    def api(self):
         self.client.get("/api")
-
-
-    # @task(1)
-    # def api(self):
-    #     self.client.get("/api")
 
 
 @events.test_start.add_listener
