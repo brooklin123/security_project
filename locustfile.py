@@ -8,7 +8,7 @@ class MyUser(HttpUser):
 
     @task
     def index(self):
-        self.client.get("")
+        self.client.get("/api")
 
 
     # @task(1)
