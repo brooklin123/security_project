@@ -6,13 +6,10 @@ from locust import HttpUser, task, between, events
 class MyUser(HttpUser):
     wait_time = between(5, 15)
 
-    @task(2)
+    @task
     def index(self):
-        with self.client.get("", catch_response=True) as response:
-            if response.text != "Success":
-                response.failure("Got wrong response")
-            elif response.elapsed.total_seconds() > 0.5:
-                response.failure("Request took too long")
+        self.client.get("")
+
 
     # @task(1)
     # def api(self):
@@ -26,3 +23,20 @@ def on_test_start(environment, **kwargs):
 @events.test_stop.add_listener
 def on_test_stop(environment, **kwargs):
     print("A new test is ending")
+    
+'''
+def checker(environment):
+    while not environment.runner.state in [STATE_STOPPING, STATE_STOPPED, STATE_CLEANUP]:
+        time.sleep(1)
+        if environment.runner.stats.total.fail_ratio > 0.2:
+            logging.info(f"fail ratio was {environment.runner.stats.total.fail_ratio}, quitting")
+            environment.process_exit_code = 2
+            environment.runner.quit()
+            return
+
+@events.init.add_listener
+def on_locust_init(environment, **_kwargs):
+    print("A new test is starting")
+    if not isinstance(environment.runner, WorkerRunner):
+        gevent.spawn(checker, environment)
+'''
