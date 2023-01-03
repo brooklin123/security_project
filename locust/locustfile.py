@@ -8,7 +8,7 @@ class MyUser(HttpUser):
 
     @task(2)
     def index(self):
-        with self.client.get("/", catch_response=True) as response:
+        with self.client.get("", catch_response=True) as response:
             if response.text != "Success":
                 response.failure("Got wrong response")
             elif response.elapsed.total_seconds() > 0.5:
